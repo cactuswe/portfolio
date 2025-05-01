@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Fun and interactive WPM typing speed test to improve typing skills.">
+    <title>WPM Sprint</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<a href="./index.html" id="refresh"><i class="fa-solid fa-rotate-right"></i></a>
+
+<div class="container">
+    <div class="stats">
+        <div id="timer">Time: 0s</div>
+        <div id="wpm">WPM: 0</div>
+        <div id="accuracy">ACC: 0%</div>
+    </div>
+    <div class="text-to-type" tabindex="0"></div>
+    <div id="result"></div>
+</div>
+
+<div class="keyboard">
+    <div class="row">
+        <div class="key">q</div>
+        <div class="key">w</div>
+        <div class="key">e</div>
+        <div class="key">r</div>
+        <div class="key">t</div>
+        <div class="key">y</div>
+        <div class="key">u</div>
+        <div class="key">i</div>
+        <div class="key">o</div>
+        <div class="key">p</div>
+    </div>
+    <div class="row">
+        <div class="key">a</div>
+        <div class="key">s</div>
+        <div class="key">d</div>
+        <div class="key">f</div>
+        <div class="key">g</div>
+        <div class="key">h</div>
+        <div class="key">j</div>
+        <div class="key">k</div>
+        <div class="key">l</div>
+    </div>
+    <div class="row">
+        <div class="key wide" id="shift"><i class="fas fa-arrow-up"></i></div>
+        <div class="key">z</div>
+        <div class="key">x</div>
+        <div class="key">c</div>
+        <div class="key">v</div>
+        <div class="key">b</div>
+        <div class="key">n</div>
+        <div class="key">m</div>
+        <div class="key wide" id="delete"><i class="fas fa-delete-left"></i></div>
+    </div>
+    <div class="row">
+        <div class="key special" id="end">END</div>
+        <div class="key">,</div>
+        <div class="key space" id="space"></div>
+        <div class="key">.</div>
+        <div class="key confirm" id="done">DONE</div>
+    </div>
+</div>
+
+<script src="script.js" type="module"></script>
+</body>
+</html>
