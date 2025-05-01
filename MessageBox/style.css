@@ -1,0 +1,287 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+/* Message Input*/
+
+.messageInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 2rem);
+    right: 50%;
+    transform: translateX(50%);
+
+    width: min(90%, 500px);
+    height: 3rem;
+    padding: env(safe-area-inset-bottom) 1rem;
+    z-index: 9999;
+    touch-action: manipulation;
+}
+
+.messageInput input[type="text"] {
+    outline: none;
+    border: 2px solid #ccc;
+    border-radius: 1000px;
+
+    font-size: 16px;  
+    padding: 0.8rem 4rem 0.8rem 1rem;
+    height: 100%;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 65%;
+    pointer-events: auto;
+
+    position: absolute;
+    left: 0;
+}
+
+.messageInput button{
+    width: 2.8rem;
+    height: 2.8rem;
+
+    background-color: transparent;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 0;
+    transform: translateY(-50%);
+    top: 45%;
+
+    border: 2px solid #888;
+    border-radius: 50%;
+
+    transition: all ease 0.5s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    pointer-events: auto;
+}
+.messageInput button i {
+    font-size: 1.3rem;
+}
+.messageInput button:hover {
+    background-color: #66e;
+    color: white;
+}
+
+/* Admin Login */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+#loginForm input {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#loginForm button {
+    padding: 0.5rem;
+    background-color: #66e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+/* COOKIES */
+.cookie-consent {
+    display: none;              
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    color: #000;
+    padding: env(safe-area-inset-bottom) 1rem;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    font-size: 0.85rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+  }
+  
+  .cookie-consent p {
+    margin: 0;
+    flex: 1 1 auto;
+  }
+  
+  .cookie-consent a {
+    text-decoration: underline;
+    color: inherit;
+  }
+  
+  .cookie-accept {
+    flex: 0 0 auto;
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  @media (max-width: 600px) {
+    .cookie-consent {
+      flex-direction: column;
+      text-align: center;
+    }
+    .cookie-accept {
+      margin: 0.5rem 0 0;
+    }
+  }
+  
+
+
+/* Message Styling */
+.message {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: opacity 1s ease, transform 1s ease;
+    will-change: transform, opacity;
+    pointer-events: none;
+    max-width: min(280px, 70vw);
+    word-wrap: break-word;
+    z-index: 1000;
+    font-size: 14px;
+}
+
+.message span {
+    display: block;
+}
+
+.message-meta {
+    color: #666;
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+    white-space: nowrap;
+    opacity: 0.7;
+}
+
+/* Physics */
+#physics-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    perspective: 1000px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .messageInput {
+        height: 3.2rem;
+        bottom: max(env(safe-area-inset-bottom), 0.5rem);
+        padding: 0 0.8rem;
+    }
+
+    .messageInput input[type="text"] {
+        font-size: 16px;
+        padding: 0rem 3.5rem 0rem 1rem;
+        height: 100%;
+    }
+
+    .messageInput button {
+        width: 3rem;
+        height: 3rem;
+        right: 0.5rem;
+        transform: translateY(-50%);
+        top: 45%;
+    }
+
+    .messageInput button i {
+        font-size: 1.5rem;
+    }
+
+    .message {
+        padding: 8px;
+        font-size: 13px;
+        transition: transform 0.3s ease;
+    }
+
+    .message-meta {
+        font-size: 11px;
+    }
+
+    body.keyboard-open .message {
+        transform: translateY(-40vh);
+    }
+
+    #physics-container {
+        transform-origin: center center;
+        transform: scale(0.95);
+    }
+
+    body.keyboard-open .messageInput {
+        position: fixed;
+        bottom: 0;
+        transform: translateX(50%);
+    }
+}
+
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .messageInput {
+        padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+        width: min(90%, 450px);
+        margin: 0 auto;
+    }
+}
+
+.messageInput input[type="text"]:focus {
+    border-color: #66e;
+    box-shadow: 0 0 0 3px rgba(102, 102, 238, 0.2);
+}
+
+@supports (-webkit-touch-callout: none) {
+    .messageInput {
+        padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+    }
+
+    .messageInput input[type="text"] {
+        padding-top: 0.7rem;
+        padding-bottom: 0.7rem;
+    }
+
+    body.keyboard-open .messageInput {
+        bottom: 0;
+    }
+}
