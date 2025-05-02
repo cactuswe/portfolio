@@ -213,8 +213,8 @@ textarea, #display {
 }
 
 .key { 
-    min-width: 48px;
-    min-height: 63px;
+    min-width: 40px;
+    min-height: 52.5px;
     aspect-ratio: 32 / 42; /* Behåll samma förhållande som width och height */
     display: flex; /* Behövs för att aspect-ratio ska fungera korrekt */
     justify-content: center;
