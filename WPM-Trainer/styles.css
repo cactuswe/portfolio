@@ -201,7 +201,7 @@ textarea, #display {
     width: 100%;
     position: fixed;
     bottom: 0;
-    max-height: 200px;
+    max-height: 250px;
 }
 
 .row {
@@ -214,6 +214,7 @@ textarea, #display {
 .key { 
     min-width: 32px;
     min-height: 42px;
+    max-height: 50px;
     aspect-ratio: 32 / 42; /* Behåll samma förhållande som width och height */
     display: flex; /* Behövs för att aspect-ratio ska fungera korrekt */
     justify-content: center;
