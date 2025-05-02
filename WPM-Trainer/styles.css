@@ -210,20 +210,20 @@ textarea, #display {
 }
 
 .key {
-    width: 32px;
-    height: 42px;
+    width: calc(100% - 6px); /* 3px marginal på båda sidor */
+    margin: 0 3px; /* Marginal för vänster och höger */
+    aspect-ratio: 32 / 42; /* Behåll samma förhållande som width och height */
+    display: flex; /* Behövs för att aspect-ratio ska fungera korrekt */
+    justify-content: center;
+    align-items: center;
     background: #717171;
     color: white;
-    text-align: center;
     border-radius: 6px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease, transform 0.1s ease;
     font-size: 20px;
     user-select: none;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     touch-action: manipulation;
 }
 
