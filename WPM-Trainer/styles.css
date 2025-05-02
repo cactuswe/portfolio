@@ -209,7 +209,7 @@ textarea, #display {
     justify-content: center;
     gap: 6px;
     width: calc(100% - 6px);
-    max-height: 50px;
+    max-height: 42px;
 }
 
 .key { 
