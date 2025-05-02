@@ -206,7 +206,7 @@ textarea, #display {
 
 .row {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     gap: 6px;
     width: calc(100% - 6px);
     max-height: 50px;
