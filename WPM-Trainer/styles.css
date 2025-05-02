@@ -206,7 +206,7 @@ textarea, #display {
 
 .row {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     gap: 6px;
     width: calc(100% - 6px);
 }
@@ -215,6 +215,7 @@ textarea, #display {
     min-width: 32px;
     min-height: 42px;
     max-height: 50px;
+    max-width: 40px;
     aspect-ratio: 32 / 42; /* Behåll samma förhållande som width och height */
     display: flex; /* Behövs för att aspect-ratio ska fungera korrekt */
     justify-content: center;
