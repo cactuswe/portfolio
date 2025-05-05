@@ -11,6 +11,11 @@
 <body>
 <a href="./index.html" id="refresh"><i class="fa-solid fa-rotate-right"></i></a>
 
+<div class="return" style="position: fixed;top: 20px;left: 20px;width: 50px;height: 50px;border-radius: 50%;background: rgba(126, 166, 198, 0.15);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);border: 1px solid rgba(238, 248, 249, 0.2);box-shadow: 0 8px 32px rgba(59, 81, 96, 0.1);cursor: pointer;transition: transform 0.3s ease-in-out;z-index: 1000;display: flex;justify-content: center;align-items: center;overflow: hidden;" onclick="window.location.href='../'">
+    <img src="../avatar.png" alt="Avatar" style="width: 35px;height: 35px;transition: transform 0.3s ease-in-out;">
+</div>
+<style> .return img {width: 100%;height: 100%;object-fit: cover; border-radius: 50%;} .return:hover {transform: scale(1.1) rotate(360deg);} .return:hover img {transform: rotate(-360deg);}</style>
+
 <div class="container">
     <div class="stats">
         <div id="timer">Time: 0s</div>
