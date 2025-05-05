@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inhale</title>
+    <!-- Styling & Icons-->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <button id="menuButton" class="menu-button">
+        <i class="fa-solid fa-sliders"></i>
+    </button>
+    
+    <div class="controls">
+        <div class="controls-header">
+            <h3>Settings</h3>
+        </div>
+        
+        <div class="sequence-builder">
+            <div class="title">
+                <h3>Breathing Sequence</h3>
+                <button id="pauseButton"><i class="fa-solid fa-pause"></i></button>
+            </div>
+            <div class="sequence-container" id="sequence">
+                <!-- Sequence filled dynamically -->
+            </div>
+            <div class="action-buttons">
+                <button onclick="addAction('Inhale')">+ Inhale</button>
+                <button onclick="addAction('Hold')">+ Hold</button>
+                <button onclick="addAction('Exhale')">+ Exhale</button>
+            </div>
+        </div>
+        <div class="settings">
+            <div class="setting">
+                <label>Inhale (seconds):</label>
+                <input type="number" id="inhaleTime" value="4" min="1" max="10">
+            </div>
+            <div class="setting">
+                <label>Hold (seconds):</label>
+                <input type="number" id="holdTime" value="4" min="1" max="10">
+            </div>
+            <div class="setting">
+                <label>Exhale (seconds):</label>
+                <input type="number" id="exhaleTime" value="4" min="1" max="10">
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="breathingBlob">
+        <div id="outerBreathingBlob"></div>
+        <div id="innerBreathingBlob"></div>
+        <div class="instruction">Inhale<p>Inhale</p></div>
+    </div>
+    
+    <script>
+        let instruction = document.querySelector(".instruction");
+        let isPaused = false;
+        let timeoutId = null;
+        let sequence = ['Inhale', 'Hold', 'Exhale', 'Hold'];
+        let currentActionIndex = 0;
+    
+        const pauseButton = document.getElementById('pauseButton');
+        const inhaleInput = document.getElementById('inhaleTime');
+        const holdInput = document.getElementById('holdTime');
+        const exhaleInput = document.getElementById('exhaleTime');
+        const sequenceContainer = document.getElementById('sequence');
+    
+        // Update displayed sequence in UI
+        function updateSequenceDisplay() {
+            sequenceContainer.innerHTML = '';
+            sequence.forEach((action, index) => {
+                const actionElement = document.createElement('div');
+                actionElement.className = 'sequence-item';
+                actionElement.draggable = true;
+                actionElement.innerHTML = `
+                    ${action}
+                    <button onclick="removeAction(${index})"><i class="fa-solid fa-square-minus"></i></button>
+                `;
+                
+                actionElement.addEventListener('dragstart', e => {
+                    e.dataTransfer.setData('text/plain', index);
+                });
+                
+                sequenceContainer.appendChild(actionElement);
+            });
+        }
+    
+        // Add new action to sequence
+        function addAction(action) {
+            sequence.push(action);
+            updateSequenceDisplay();
+            actions = updateActions();
+        }
+    
+        // Remove action from sequence
+        function removeAction(index) {
+            if (sequence.length > 1) {
+                sequence.splice(index, 1);
+                updateSequenceDisplay();
+                actions = updateActions();
+            }
+        }
+    
+        // Handle drag and drop
+        sequenceContainer.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
+    
+        sequenceContainer.addEventListener('drop', e => {
+            e.preventDefault();
+            const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
+            const toIndex = [...sequenceContainer.children].indexOf(
+                e.target.closest('.sequence-item')
+            );
+            
+            if (toIndex >= 0) {
+                const item = sequence[fromIndex];
+                sequence.splice(fromIndex, 1);
+                sequence.splice(toIndex, 0, item);
+                updateSequenceDisplay();
+                actions = updateActions();
+            }
+        });
+    
+        // Update actions based on current sequence and settings
+        function updateActions() {
+            const newActions = {};
+            const defaultWidths = {
+                'Inhale': window.innerWidth <= 768 ? "70%" : "30%",
+                'Exhale': window.innerWidth <= 768 ? "35%" : "15%"
+            };
+            
+            sequence.forEach((action, index) => {
+                if (action !== 'Hold') {
+                    newActions[action] = {
+                        duration: document.getElementById(`${action.toLowerCase()}Time`).value * 1000,
+                        width: defaultWidths[action]
+                    };
+                }
+            });
+        
+            sequence.forEach((action, index) => {
+                if (action === 'Hold') {
+                    let width = "30%"; // Default fallback
+                    
+                    for (let i = index - 1; i >= 0; i--) {
+                        if (sequence[i] !== 'Hold') {
+                            width = newActions[sequence[i]].width;
+                            break;
+                        }
+                    }
+                    
+                    newActions[action] = {
+                        duration: document.getElementById('holdTime').value * 1000,
+                        width: width
+                    };
+                }
+            });
+        
+            return newActions;
+        }
 
+        let actions = updateActions();
+    
+        pauseButton.addEventListener('click', () => {
+            isPaused = !isPaused;
+            pauseButton.innerHTML = isPaused ? '<i class="fa-solid fa-play"></i>' : '<i class="fa-solid fa-pause"></i>';
+            if (!isPaused) {
+                loop();
+            }
+        });
+    
+        [inhaleInput, holdInput, exhaleInput].forEach(input => {
+            input.addEventListener('change', () => {
+                actions = updateActions();
+            });
+        });
+    
+        let currentTime = 0;
+
+        function updateInstruction() {
+            const currentAction = sequence[currentActionIndex];
+            if (!currentAction || !actions[currentAction]) {
+                console.error('Invalid action or missing configuration');
+                isPaused = true;
+                return;
+            }
+            
+            const totalDuration = actions[currentAction].duration / 1000; // Convert to seconds
+            const remainingSeconds = Math.ceil(totalDuration - currentTime);
+            
+            const displayText = `${currentAction}<br>${remainingSeconds}`;
+            instruction.innerHTML = `${displayText}<p>${displayText}</p>`;
+            
+            let width;
+            if (currentAction === 'Hold') {
+                for (let i = currentActionIndex - 1; i >= 0; i--) {
+                    if (sequence[i] !== 'Hold') {
+                        width = actions[sequence[i]].width;
+                        break;
+                    }
+                }
+                if (!width) {
+                    for (let i = sequence.length - 1; i > currentActionIndex; i--) {
+                        if (sequence[i] !== 'Hold') {
+                            width = actions[sequence[i]].width;
+                            break;
+                        }
+                    }
+                }
+            }
+            let breatheLength = `${actions[currentAction].duration / 1000}s`
+            document.documentElement.style.setProperty('--breathe-length', 
+                breatheLength
+            );  
+            document.documentElement.style.setProperty('--breathe-width', 
+                width || actions[currentAction].width
+            );
+        }
+    
+    
+        // Main loop
+        function loop() {
+            if (isPaused) return;
+        
+            const currentAction = sequence[currentActionIndex];
+            const totalDuration = actions[currentAction].duration / 1000; // Convert to seconds
+        
+            if (currentTime >= totalDuration) {
+                currentTime = 0;
+                currentActionIndex = (currentActionIndex + 1) % sequence.length;
+            }
+        
+            updateInstruction();
+            currentTime += 0.1; // Update every 100ms
+            timeoutId = setTimeout(loop, 100);
+        }
+
+        // Add mobile menu controls
+        const menuButton = document.getElementById('menuButton');
+        const controls = document.querySelector('.controls');
+        
+        function toggleControls() {
+            controls.classList.toggle('show');
+            document.body.classList.toggle('controls-open');
+        }
+        
+        menuButton.addEventListener('click', toggleControls);
+    
+        window.addEventListener('resize', () => {
+            actions = updateActions();
+        });
+
+        // Initialize
+        updateSequenceDisplay();
+        loop();
+    </script>
+</body>
+</html>
